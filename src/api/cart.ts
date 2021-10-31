@@ -1,11 +1,11 @@
-import { getShirts, getUser, getUserRef, Shirt } from "@api"
+import { getShirts, getUser, getUserRef, Shirt, ShirtColor } from "@api"
 import { ShirtSize } from "@components/UI/DetailUI/SizeSelection"
 import { arrayUnion, updateDoc } from "@firebase/firestore"
 
 export interface CartItem {
     id: string
     shirtId: string
-    color: number
+    color: ShirtColor
     size: ShirtSize
     quantity: number
 }
@@ -73,4 +73,11 @@ export const changeShirtQuantity = async (
             cart,
         })
     }
+}
+
+export const emptyCart = async (uid: string) => {
+    const userRef = getUserRef(uid)
+    await updateDoc(userRef, {
+        cart: [],
+    })
 }

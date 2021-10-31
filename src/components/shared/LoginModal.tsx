@@ -4,6 +4,7 @@ import { useFormCore } from "@hooks"
 import LoginTag from "./LoginTag"
 
 import { loginWithGoogle } from "@api"
+import { useMutation } from "react-query"
 
 interface LoginModalProps {
     isOpen: boolean
@@ -11,6 +12,9 @@ interface LoginModalProps {
 }
 
 export const LoginModal = ({ isOpen, onClose }: LoginModalProps) => {
+    const { mutate } = useMutation(loginWithGoogle, {
+        onSuccess: () => onClose(),
+    })
     return (
         <Modal isOpen={isOpen} onClose={onClose} size="sm">
             <ModalOverlay />
@@ -19,7 +23,7 @@ export const LoginModal = ({ isOpen, onClose }: LoginModalProps) => {
                 <ModalCloseButton />
                 <ModalBody pb={4}>
                     <VStack justify="space-evenly">
-                        <LoginTag img="/images/google.png" label="Google" onClick={() => loginWithGoogle()} />
+                        <LoginTag img="/images/google.png" label="Google" onClick={() => mutate()} />
                     </VStack>
                 </ModalBody>
             </ModalContent>

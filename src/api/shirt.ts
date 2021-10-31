@@ -1,11 +1,13 @@
 import { collection, getDocs, getDoc, doc, query, where, limit } from "firebase/firestore"
 import { db } from "@firebaseConfig"
 
+export type ShirtColor = Record<"code" | "name" | "image", string>
+
 export interface Shirt {
     id: string
     name: string
     price: number
-    colors: Record<"code" | "name" | "image", string>[]
+    colors: ShirtColor[]
     image: string
     brand: string
     material: string

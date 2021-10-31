@@ -33,12 +33,16 @@ export const addUser = async (user: UserCredential["user"]) => {
     const userDoc = await getUser(uid)
     if (!userDoc) {
         const userRef = getUserRef(uid)
-        await setDoc(userRef, {
-            email,
+        const defaultUserInfo: User = {
+            email: email || "",
             phone: phoneNumber || "",
-            name: displayName,
+            name: displayName || "",
             dateOfBirth: "",
             gender: "",
-        })
+            addresses: [],
+            cart: [],
+            defaultAddress: "",
+        }
+        await setDoc(userRef, defaultUserInfo)
     }
 }

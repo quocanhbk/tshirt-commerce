@@ -24,18 +24,19 @@ const CartItemCard = ({ data }: CartItemCardProps) => {
             onSuccess: () => qc.invalidateQueries("cart"),
         }
     )
-    const color = data.colors.find((color, idx) => idx === data.color)
     useEffect(() => {
         setDelaying(true)
     }, [currentQuantity])
 
     useEffect(() => {
+        console.log(delaying)
         let timeout: NodeJS.Timeout
         if (delaying) {
             timeout = setTimeout(() => {
                 setDelaying(false)
             }, 500)
         } else {
+            console.log("change quantity")
             changeQuantity(currentQuantity)
         }
         return () => clearTimeout(timeout)
@@ -44,7 +45,7 @@ const CartItemCard = ({ data }: CartItemCardProps) => {
     return (
         <Flex px={4} py={2} rounded="lg" shadow="base">
             <Box>
-                <Img src={data.colors[data.color].image} w="5rem" />
+                <Img src={data.colors.find(color => color.code === data.color.code)?.image} w="5rem" />
             </Box>
             <Flex direction="column" flex={1} ml={4}>
                 <Text fontWeight="bold" fontSize="lg">
@@ -60,8 +61,8 @@ const CartItemCard = ({ data }: CartItemCardProps) => {
                     </chakra.span>
                 </Text>
                 <Flex align="center">
-                    <Text mr={1}>Màu sắc: {color?.name}</Text>
-                    <Box boxSize="1rem" rounded="full" bg={color?.code} border="1px" borderColor="gray.500" />
+                    <Text mr={1}>Màu sắc: {data.color.name}</Text>
+                    <Box boxSize="1rem" rounded="full" bg={data.color.code} border="1px" borderColor="gray.500" />
                 </Flex>
             </Flex>
             <Box>

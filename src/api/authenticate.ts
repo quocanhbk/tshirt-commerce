@@ -4,10 +4,15 @@ import { auth } from "@firebaseConfig"
 
 const googleProvider = new GoogleAuthProvider()
 
-export const loginWithGoogle = () => {
-    signInWithPopup(auth, googleProvider)
-        .then(res => {
-            addUser(res.user)
-        })
-        .catch(console.log)
+export const loginWithGoogle = async () => {
+    try {
+        let userCredentials = await signInWithPopup(auth, googleProvider)
+        addUser(userCredentials.user)
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+export const logout = async () => {
+    await auth.signOut()
 }

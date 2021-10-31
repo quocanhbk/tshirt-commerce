@@ -11,9 +11,10 @@ interface AddressCardProps {
     isDefault?: boolean
     onDeleteClick?: () => void
     onEditClick?: () => void
+    isSelecting?: boolean
 }
 
-const AddressCard = ({ addressInfo, isDefault, onEditClick, onDeleteClick }: AddressCardProps) => {
+const AddressCard = ({ addressInfo, isDefault, onEditClick, onDeleteClick, isSelecting }: AddressCardProps) => {
     const [isOpen, setIsOpen] = useState(false)
     const btnRef = useRef<HTMLButtonElement>(null)
     const { uid } = useAppContext()
@@ -51,61 +52,63 @@ const AddressCard = ({ addressInfo, isDefault, onEditClick, onDeleteClick }: Add
                     <Text ml={2}>{addressInfo.phone}</Text>
                 </Flex>
             </VStack>
-            <Flex direction="column" justify="space-between" align="flex-end">
-                <Box pos="relative">
-                    <IconButton
-                        icon={<BsThreeDots size="1.2rem" />}
-                        aria-label="more"
-                        rounded="full"
-                        size="xs"
-                        variant="ghost"
-                        onClick={() => setIsOpen(!isOpen)}
-                        ref={btnRef}
-                    />
-                    <Box pos="absolute" right={0}>
-                        <Collapse in={isOpen}>
-                            <Box w="max-content" py={2} px={4} rounded="lg" shadow="base" bg="gray.50">
-                                <VStack align="flex-start">
-                                    <Text
-                                        fontWeight="semibold"
-                                        color="blue.400"
-                                        cursor="pointer"
-                                        onClick={onEditClick}
-                                        w="full"
-                                    >
-                                        Sửa địa chỉ
-                                    </Text>
-                                    {!isDefault && (
+            {!isSelecting && (
+                <Flex direction="column" justify="space-between" align="flex-end">
+                    <Box pos="relative">
+                        <IconButton
+                            icon={<BsThreeDots size="1.2rem" />}
+                            aria-label="more"
+                            rounded="full"
+                            size="xs"
+                            variant="ghost"
+                            onClick={() => setIsOpen(!isOpen)}
+                            ref={btnRef}
+                        />
+                        <Box pos="absolute" right={0}>
+                            <Collapse in={isOpen}>
+                                <Box w="max-content" py={2} px={4} rounded="lg" shadow="base" bg="gray.50">
+                                    <VStack align="flex-start">
                                         <Text
                                             fontWeight="semibold"
-                                            color="green.400"
+                                            color="blue.400"
                                             cursor="pointer"
-                                            onClick={() => mutateDefaultAddress()}
+                                            onClick={onEditClick}
                                             w="full"
                                         >
-                                            Chọn làm mặc định
+                                            Sửa địa chỉ
                                         </Text>
-                                    )}
-                                    <Text
-                                        fontWeight="semibold"
-                                        color="red.400"
-                                        cursor="pointer"
-                                        onClick={onDeleteClick}
-                                        w="full"
-                                    >
-                                        Xóa địa chỉ
-                                    </Text>
-                                </VStack>
-                            </Box>
-                        </Collapse>
+                                        {!isDefault && (
+                                            <Text
+                                                fontWeight="semibold"
+                                                color="green.400"
+                                                cursor="pointer"
+                                                onClick={() => mutateDefaultAddress()}
+                                                w="full"
+                                            >
+                                                Chọn làm mặc định
+                                            </Text>
+                                        )}
+                                        <Text
+                                            fontWeight="semibold"
+                                            color="red.400"
+                                            cursor="pointer"
+                                            onClick={onDeleteClick}
+                                            w="full"
+                                        >
+                                            Xóa địa chỉ
+                                        </Text>
+                                    </VStack>
+                                </Box>
+                            </Collapse>
+                        </Box>
                     </Box>
-                </Box>
-                {isDefault && (
-                    <Text color="green.400" fontWeight="semibold">
-                        {"Mặc định"}
-                    </Text>
-                )}
-            </Flex>
+                    {isDefault && (
+                        <Text color="green.400" fontWeight="semibold">
+                            {"Mặc định"}
+                        </Text>
+                    )}
+                </Flex>
+            )}
         </Flex>
     )
 }

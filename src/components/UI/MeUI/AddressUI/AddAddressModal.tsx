@@ -10,9 +10,10 @@ import { useMutation, useQueryClient } from "react-query"
 interface AddAddressModalProps {
     isOpen: boolean
     onClose: () => void
+    onSuccess?: () => void
 }
 
-const AddAddressModal = ({ isOpen, onClose }: AddAddressModalProps) => {
+const AddAddressModal = ({ isOpen, onClose, onSuccess }: AddAddressModalProps) => {
     const { user, uid } = useAppContext()
     const toast = useChakraToast()
     const qc = useQueryClient()
@@ -37,6 +38,7 @@ const AddAddressModal = ({ isOpen, onClose }: AddAddressModalProps) => {
             toast({ title: "Thêm địa chỉ thành công", status: "success" })
             qc.invalidateQueries("addresses")
             qc.invalidateQueries("default-address-id")
+            onSuccess && onSuccess()
         },
         onError: () => {
             toast({ title: "Đã xảy ra lỗi", message: "Vui lòng thử lại sau", status: "error" })

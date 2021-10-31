@@ -1,14 +1,21 @@
-import { HStack, Heading, InputGroup, InputLeftElement, Input, Button } from "@chakra-ui/react"
+import { HStack, Heading, InputGroup, InputLeftElement, Input, Button, InputRightElement } from "@chakra-ui/react"
 import { LoginModal } from "@components/shared"
 import { useAppContext } from "@context"
 import { useRouter } from "next/dist/client/router"
-import React, { useState } from "react"
-import { BsSearch, BsCartFill } from "react-icons/bs"
+import React, { KeyboardEvent, useState } from "react"
+import { BsSearch, BsCartFill, BsX } from "react-icons/bs"
 import { FaUser } from "react-icons/fa"
 const Header = () => {
     const [loginModal, setLoginModal] = useState(false)
     const router = useRouter()
     const { user } = useAppContext()
+    const [searchText, setSearchText] = useState("")
+    const handleKeydown = (e: KeyboardEvent<HTMLInputElement>) => {
+        if (e.key === "Enter") {
+            e.preventDefault()
+            router.push(`?search=${searchText}`)
+        }
+    }
     return (
         <HStack spacing={4} p={4} align="center" bg="gray.800" justify="space-between">
             <Heading
@@ -22,7 +29,21 @@ const Header = () => {
             </Heading>
             <InputGroup w="20rem">
                 <InputLeftElement pointerEvents="none" children={<BsSearch size="1.2rem" />} />
-                <Input type="tel" placeholder="Tìm kiếm sản phẩm" rounded="full" bg="white" />
+                <Input
+                    placeholder="Tìm kiếm sản phẩm"
+                    rounded="full"
+                    bg="white"
+                    onKeyDown={handleKeydown}
+                    value={searchText}
+                    onChange={e => setSearchText(e.target.value)}
+                />
+                {!!searchText && (
+                    <InputRightElement
+                        children={<BsX size="1.5rem" />}
+                        onClick={() => router.push("/")}
+                        cursor="pointer"
+                    />
+                )}
             </InputGroup>
             <HStack align="center">
                 {!!user && (
@@ -35,7 +56,10 @@ const Header = () => {
                         _hover={{ bg: "gray.600" }}
                         _active={{ bg: "gray.700" }}
                         ml="auto"
-                        onClick={() => router.push("/cart")}
+                        onClick={() => {
+                            router.push("/cart")
+                            setSearchText("")
+                        }}
                     >
                         Giỏ hàng
                     </Button>

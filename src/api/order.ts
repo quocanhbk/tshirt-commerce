@@ -1,4 +1,4 @@
-import { Address, CartItem } from "@api"
+import { Address, CartItem, emptyCart } from "@api"
 import { doc, setDoc } from "@firebase/firestore"
 import { db } from "@firebaseConfig"
 
@@ -7,7 +7,7 @@ export type OrderStatus = "pending" | "success" | "failed"
 export interface Order {
     buyerId: string
     cart: CartItem[]
-    address: Address
+    addressInfo: Pick<Address, "name" | "address" | "phone">
     paymentType: PaymentType
     totalPrice: number
     status: OrderStatus
@@ -15,7 +15,12 @@ export interface Order {
 
 export const getOrderRef = (orderId: string) => doc(db, "orders", orderId)
 
-export const createOrder = async (orderId: string, orderInfo: Order) => {
+export const createOrder = async (orderId: string, orderInfo: Omit<Order, "status">) => {
     const orderRef = getOrderRef(orderId)
-    await setDoc(orderRef, orderInfo)
+    const order: Order = {
+        ...orderInfo,
+        status: "pending",
+    }
+    await setDoc(orderRef, order)
+    await emptyCart(orderInfo.buyerId)
 }

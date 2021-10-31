@@ -1,6 +1,8 @@
+import { logout } from "@api"
 import { Box, Heading, Text, VStack } from "@chakra-ui/react"
 import { auth } from "@firebaseConfig"
 import { useRouter } from "next/dist/client/router"
+import { useMutation } from "react-query"
 import NextLink from "./NextLink"
 interface NavigationBoxProps {}
 
@@ -12,6 +14,9 @@ const links = [
 
 const NavigationBox = ({}: NavigationBoxProps) => {
     const router = useRouter()
+    const { mutate } = useMutation(logout, {
+        onSuccess: () => router.push("/"),
+    })
     return (
         <Box bg="white" shadow="base" p={4} rounded="lg">
             <Heading fontSize="lg" textTransform="uppercase" mb={4}>
@@ -30,10 +35,7 @@ const NavigationBox = ({}: NavigationBoxProps) => {
                     cursor="pointer"
                     color="red.500"
                     fontWeight="semibold"
-                    onClick={() => {
-                        auth.signOut()
-                        router.push("/")
-                    }}
+                    onClick={() => mutate()}
                     borderTop="1px"
                     borderColor="blackAlpha.200"
                     w="full"

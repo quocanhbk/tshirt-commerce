@@ -37,7 +37,7 @@ const DetailUI = ({ id }: DetailUIProps) => {
             addToCart(uid, {
                 id: nanoid(),
                 shirtId: id!,
-                color: page,
+                color: data!.colors[page],
                 size: selectedSize,
                 quantity,
             }),
