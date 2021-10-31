@@ -7,7 +7,7 @@ import { useRouter } from "next/router"
 interface HomeUIProps {}
 
 const HomeUI = ({}: HomeUIProps) => {
-    const { data } = useQuery("shirts", getShirts)
+    const { data } = useQuery("shirts", getShirts, {})
     const router = useRouter()
     const shirtSearcher = (shirt: Shirt) => {
         if (router.query.search) {
@@ -25,7 +25,7 @@ const HomeUI = ({}: HomeUIProps) => {
                         Sản phẩm nổi bật
                     </Heading>
                     <SimpleGrid columns={4} spacing={8}>
-                        {data?.filter(shirtSearcher).map(shirt => (
+                        {data!.filter(shirtSearcher).map(shirt => (
                             <ShirtCard key={shirt.id} data={shirt} />
                         ))}
                     </SimpleGrid>

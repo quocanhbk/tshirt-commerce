@@ -1,25 +1,15 @@
 import { getShirts } from "@api"
 import { Img, Box, Flex, FlexProps } from "@chakra-ui/react"
-import { shuffle } from "@utils"
 import { motion } from "framer-motion"
-import router, { useRouter } from "next/router"
+import router from "next/router"
 import { useQuery } from "react-query"
 
 interface BannerProps {}
-
-const images = [
-    "https://hstatic.net/640/1000004640/1/2016/4-7/do-003_f393805d-b3f4-491a-541f-3143d43ad4ee_grande.png",
-    "https://product.hstatic.net/1000004640/product/trang-haveaniceday_grande.jpg",
-    "https://hstatic.net/640/1000004640/1/2016/4-8/do-ao-tron-do-copy2_grande.png",
-    "https://media.coolmate.me/uploads/July2021/9-0_copy_92.jpg",
-    "https://hstatic.net/640/1000004640/1/2016/4-8/kem-_a1bad425-06d9-49d8-5eec-bc354d032e03_d8b727e8-7253-42ec-487d-10cd98a8e47a_fd811896-75e4-4669-4128-a9aa6b127f06_grande.png",
-]
 
 const MotionFlex = motion<Omit<FlexProps, "transition">>(Flex)
 
 const Banner = ({}: BannerProps) => {
     const { data } = useQuery("shirts", getShirts)
-    const shuffleData = shuffle(data!).slice(0, 5)
     return (
         <Box w="full" h="10rem" overflow="hidden">
             <MotionFlex
@@ -32,7 +22,7 @@ const Banner = ({}: BannerProps) => {
                 }}
             >
                 <Flex justify="space-around" flexShrink={0} w="50%">
-                    {shuffleData.map(shirt => (
+                    {data!.slice(0, 5).map(shirt => (
                         <Box
                             key={shirt.id}
                             boxSize="10rem"
@@ -47,7 +37,7 @@ const Banner = ({}: BannerProps) => {
                     ))}
                 </Flex>
                 <Flex justify="space-around" flexShrink={0} w="50%">
-                    {shuffleData.map(shirt => (
+                    {data!.slice(0, 5).map(shirt => (
                         <Box
                             key={shirt.id}
                             boxSize="10rem"

@@ -1,7 +1,8 @@
 import { Shirt } from "@api"
-import { Box, Flex, Img, Text, FlexProps } from "@chakra-ui/react"
+import { Box, Flex, Text, FlexProps } from "@chakra-ui/react"
 import { useRouter } from "next/dist/client/router"
 import { Price } from "../../shared"
+import Image from "next/image"
 
 interface ShirtCardProps extends FlexProps {
     data: Shirt
@@ -23,7 +24,7 @@ export const ShirtCard = ({ data, ...rest }: ShirtCardProps) => {
             {...rest}
         >
             <Flex justify="center" w="full">
-                <Img src={image} alt={name} boxSize="12rem" />
+                <Image src={image} alt={name} width={200} height={200} />
             </Flex>
             <Box py={2} px={4}>
                 <Text fontWeight="semibold" isTruncated>

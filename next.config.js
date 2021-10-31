@@ -10,4 +10,15 @@ module.exports = {
             },
         ]
     },
+    images: {
+        domains: [
+            "static.dosi-in.com",
+            "bizweb.dktcdn.net",
+            "product.hstatic.net",
+            "hstatic.net",
+            "storage.googleapis.com",
+            "assets.adidas.com",
+            "media.coolmate.me",
+        ],
+    },
 }
