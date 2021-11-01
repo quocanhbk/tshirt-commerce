@@ -18,7 +18,7 @@ const Payment = ({ currentPayment, setCurrentPayment }: PaymentProps) => {
                     <VStack align="flex-start">
                         <Radio value="cash">
                             <Flex align="center">
-                                <Flex justify="center" w="2rem">
+                                <Flex justify="center" w="2rem" color="green.500">
                                     <BsCash size="1.5rem" />
                                 </Flex>
                                 <Text ml={2}>Thanh toán tiền mặt khi nhận hàng</Text>

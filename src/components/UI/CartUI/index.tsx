@@ -28,10 +28,10 @@ const CartUI = () => {
     const { mutate: mutateBuy, isLoading: isBuying } = useMutation<
         unknown,
         unknown,
-        { orderId: string; orderInfo: Omit<Order, "status"> }
+        { orderId: string; orderInfo: Omit<Order, "status" | "id"> }
     >(input => createOrder(input.orderId, input.orderInfo), {
         onSuccess: () => {
-            router.push("/")
+            router.push("/me/order")
             toast({ status: "success", title: "Mua hàng thành công!" })
         },
         onError: () => {
@@ -55,6 +55,7 @@ const CartUI = () => {
                     quantity: cartItem.quantity,
                 })),
                 totalPrice,
+                createdDate: new Date().toString(),
             },
         })
     }

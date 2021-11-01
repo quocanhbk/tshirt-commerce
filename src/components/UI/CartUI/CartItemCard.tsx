@@ -29,14 +29,12 @@ const CartItemCard = ({ data }: CartItemCardProps) => {
     }, [currentQuantity])
 
     useEffect(() => {
-        console.log(delaying)
         let timeout: NodeJS.Timeout
         if (delaying) {
             timeout = setTimeout(() => {
                 setDelaying(false)
             }, 500)
         } else {
-            console.log("change quantity")
             changeQuantity(currentQuantity)
         }
         return () => clearTimeout(timeout)

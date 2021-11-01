@@ -1,6 +1,6 @@
 import { addToCart, getShirt, getSimilarShirts } from "@api"
 import { Flex, Box, Text, HStack } from "@chakra-ui/react"
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import { useMutation, useQuery } from "react-query"
 import Images from "./Images"
 import { AiOutlineHeart } from "react-icons/ai"
@@ -47,6 +47,11 @@ const DetailUI = ({ id }: DetailUIProps) => {
             },
         }
     )
+    useEffect(() => {
+        setQuantity(1)
+        setSelectedSize("L")
+        setPage([0, 0])
+    }, [id])
     return (
         <Flex direction="column" align="center" flex={1} p={4} bg="gray.50">
             {data && similarShirts ? (
