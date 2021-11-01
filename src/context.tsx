@@ -13,6 +13,7 @@ interface ContextProps {
 const useApp = () => {
     const [uid, setUid] = useState("")
     const [loading, setLoading] = useState(true)
+    const [loginModal, setLoginModal] = useState(false)
     const { data: user } = useQuery("user", () => getUser(uid), {
         enabled: !!uid,
     })
@@ -29,12 +30,11 @@ const useApp = () => {
         })
         return () => unsubscribe()
     }, [])
-    return { user, loading, uid }
+    return { user, loading, uid, loginModal, setLoginModal }
 }
 
 export const ContextProvider = ({ children }: ContextProps) => {
     return <AppContext.Provider value={useApp()}>{children}</AppContext.Provider>
 }
 
-export const useAppContext = () =>
-    useContext(AppContext) as { user: UserInformation | undefined; loading: boolean; uid: string }
+export const useAppContext = () => useContext(AppContext) as ReturnType<typeof useApp>

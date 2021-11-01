@@ -1,6 +1,6 @@
 import { addToCart, getShirt, getSimilarShirts } from "@api"
 import { Flex, Box, Text, HStack } from "@chakra-ui/react"
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useRef, useState } from "react"
 import { useMutation, useQuery } from "react-query"
 import Images from "./Images"
 import { AiOutlineHeart } from "react-icons/ai"
@@ -18,7 +18,7 @@ interface DetailUIProps {
 }
 
 const DetailUI = ({ id }: DetailUIProps) => {
-    const { uid } = useAppContext()
+    const { uid, setLoginModal } = useAppContext()
     const toast = useChakraToast()
     const { data } = useQuery(["shirt", id], () => getShirt(id!), {
         enabled: !!id,
@@ -32,6 +32,8 @@ const DetailUI = ({ id }: DetailUIProps) => {
         setPage([index, index - page])
     }
     const [quantity, setQuantity] = useState(1)
+    const buying = useRef(false)
+
     const { mutate, isLoading } = useMutation(
         () =>
             addToCart(uid, {
@@ -47,6 +49,21 @@ const DetailUI = ({ id }: DetailUIProps) => {
             },
         }
     )
+    const handleAddToCart = () => {
+        if (!!uid) {
+            mutate()
+        } else {
+            buying.current = true
+            setLoginModal(true)
+        }
+    }
+    useEffect(() => {
+        if (buying.current) {
+            mutate()
+            buying.current = false
+        }
+    }, [uid, mutate])
+
     useEffect(() => {
         setQuantity(1)
         setSelectedSize("L")
@@ -91,7 +108,7 @@ const DetailUI = ({ id }: DetailUIProps) => {
                             setSelectedSize={setSelectedSize}
                             selectedColor={page}
                             setSelectedColor={paginate}
-                            onAddToCart={mutate}
+                            onAddToCart={handleAddToCart}
                             isAddingToCart={isLoading}
                         />
                     </Flex>

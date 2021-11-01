@@ -6,9 +6,8 @@ import React, { KeyboardEvent, useState } from "react"
 import { BsSearch, BsCartFill, BsX } from "react-icons/bs"
 import { FaUser } from "react-icons/fa"
 const Header = () => {
-    const [loginModal, setLoginModal] = useState(false)
     const router = useRouter()
-    const { user } = useAppContext()
+    const { user, setLoginModal, loginModal, uid } = useAppContext()
     const [searchText, setSearchText] = useState("")
     const handleKeydown = (e: KeyboardEvent<HTMLInputElement>) => {
         if (e.key === "Enter") {
@@ -74,11 +73,11 @@ const Header = () => {
                     color="blue.400"
                     shadow="base"
                     onClick={() => {
-                        if (!user) setLoginModal(true)
+                        if (!uid) setLoginModal(true)
                         else router.push("/me/personal-information")
                     }}
                 >
-                    {user ? user.name : "Đăng nhập"}
+                    {!!uid ? user?.name : "Đăng nhập"}
                 </Button>
             </HStack>
             <LoginModal isOpen={loginModal} onClose={() => setLoginModal(false)} />

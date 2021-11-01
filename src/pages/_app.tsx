@@ -7,6 +7,7 @@ import FooterUI from "@components/UI/FooterUI"
 import { ReactElement, ReactNode, useRef } from "react"
 import { NextPage } from "next"
 import theme from "src/theme"
+import Head from "next/head"
 
 export type NextPageWithLayout = NextPage & {
     getLayout?: (page: ReactElement) => ReactNode
@@ -25,6 +26,9 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
                 <ContextProvider>
                     <ChakraProvider theme={theme}>
                         <Flex direction="column" minH="100vh">
+                            <Head>
+                                <title>T-SHIRT</title>
+                            </Head>
                             <Header />
                             <Flex w="full" direction="column" flex={1}>
                                 {getLayout(<Component {...pageProps} />)}
