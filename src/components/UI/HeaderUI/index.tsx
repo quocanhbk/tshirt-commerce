@@ -2,13 +2,14 @@ import { HStack, Heading, InputGroup, InputLeftElement, Input, Button, InputRigh
 import { LoginModal } from "@components/shared"
 import { useAppContext } from "@context"
 import { useRouter } from "next/dist/client/router"
-import React, { KeyboardEvent, useState } from "react"
+import React, { KeyboardEvent, useEffect, useState } from "react"
 import { BsSearch, BsCartFill, BsX } from "react-icons/bs"
 import { FaUser } from "react-icons/fa"
 const Header = () => {
     const router = useRouter()
     const { user, setLoginModal, loginModal, uid } = useAppContext()
     const [searchText, setSearchText] = useState("")
+
     const handleKeydown = (e: KeyboardEvent<HTMLInputElement>) => {
         if (e.key === "Enter") {
             e.preventDefault()

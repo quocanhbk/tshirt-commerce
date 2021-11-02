@@ -11,15 +11,20 @@ const HomeUI = ({}: HomeUIProps) => {
     const router = useRouter()
     const shirtSearcher = (shirt: Shirt) => {
         if (router.query.search) {
-            const shirtString =
+            const shirtString = (
                 shirt.name +
+                " " +
                 shirt.brand +
+                " " +
                 shirt.material +
+                " " +
                 shirt.type +
+                " " +
                 shirt.colors
                     .map(color => color.name)
-                    .join("")
+                    .join(" ")
                     .toLowerCase()
+            ).toLowerCase()
             return shirtString.includes((router.query.search as string).toLowerCase())
         } else return true
     }
