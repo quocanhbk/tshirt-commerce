@@ -24,17 +24,6 @@ const Payment = ({ currentPayment, setCurrentPayment }: PaymentProps) => {
                                 <Text ml={2}>Thanh toán tiền mặt khi nhận hàng</Text>
                             </Flex>
                         </Radio>
-                        <Radio value="momo" isDisabled={true}>
-                            <Flex align="center">
-                                <Box w="2rem">
-                                    <Img
-                                        src="https://frontend.tikicdn.com/_desktop-next/static/img/icons/checkout/icon-payment-method-mo-mo.svg"
-                                        alt="momo"
-                                    />
-                                </Box>
-                                <Text ml={2}>Thanh toán bằng MoMo</Text>
-                            </Flex>
-                        </Radio>
                     </VStack>
                 </RadioGroup>
             </Box>

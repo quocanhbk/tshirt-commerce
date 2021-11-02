@@ -38,7 +38,7 @@ export const addToCart = async (uid: string, input: CartItem) => {
     // If YES, update the quantity
     // Else, push that shirt to the array
     let target = cart.find(
-        item => item.shirtId === input.shirtId && item.color === input.color && item.size === input.size
+        item => item.shirtId === input.shirtId && item.color.code === input.color.code && item.size === input.size
     )
     if (target) {
         target.quantity += input.quantity
