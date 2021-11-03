@@ -33,7 +33,6 @@ const Info = ({
             <Heading fontSize="xl">{data.name}</Heading>
             <Text>{`Thương hiệu: ${data.brand}`}</Text>
             <Text>{`Chất liệu: ${data.material}`}</Text>
-            <Text>{"Đánh giá sản phẩm: ..."}</Text>
             <Price value={data.price} fontSize="2xl" fontWeight="bold" />
             <SizeSelection selectedSize={selectedSize} setSelectedSize={setSelectedSize} />
             <ColorSelection colors={data.colors} selectedColor={selectedColor} setSelectedColor={setSelectedColor} />

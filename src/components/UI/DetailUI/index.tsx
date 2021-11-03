@@ -92,12 +92,6 @@ const DetailUI = ({ id }: DetailUIProps) => {
                                         <FaLink />
                                     </Box>
                                 </HStack>
-                                <Flex align="center" py={1} px={2} rounded="md" cursor="pointer" userSelect="none">
-                                    <Box mr={2}>
-                                        <AiOutlineHeart />
-                                    </Box>
-                                    <Text>Thích</Text>
-                                </Flex>
                             </Flex>
                         </Flex>
                         <Info
