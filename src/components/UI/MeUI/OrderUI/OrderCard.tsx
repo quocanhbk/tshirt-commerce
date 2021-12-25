@@ -96,7 +96,7 @@ const OrderCard = ({ data }: OrderCardProps) => {
                                         <Flex align="center">
                                             <Box w="1.2rem">
                                                 <Img
-                                                    src="https://frontend.tikicdn.com/_desktop-next/static/img/icons/checkout/icon-payment-method-mo-mo.svg"
+                                                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ1bHjHnPSDXgBS2WSVOAm57BdPvoAmwBMcqXwjTGUiiJGYrkvUZuVgZHXeZJWWX7kLlCg&usqp=CAU"
                                                     alt="momo"
                                                 />
                                             </Box>

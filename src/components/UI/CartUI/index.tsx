@@ -30,8 +30,12 @@ const CartUI = () => {
         unknown,
         { orderId: string; orderInfo: Omit<Order, "status" | "id"> }
     >(input => createOrder(input.orderId, input.orderInfo), {
-        onSuccess: () => {
-            router.push("/me/order")
+        onSuccess: (response) => {
+            if (response == null) {
+                router.push("/me/order")
+            } else {
+                router.push(response as string)
+            }
             toast({ status: "success", title: "Mua hàng thành công!" })
         },
         onError: () => {

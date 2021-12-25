@@ -1,6 +1,7 @@
 import { Address, CartItem, CartItemWithShirt, emptyCart, getShirts } from "@api"
-import { collection, doc, getDocs, query, setDoc, where } from "@firebase/firestore"
+import { collection, doc, getDocs, query, setDoc, where, updateDoc } from "@firebase/firestore"
 import { db } from "@firebaseConfig"
+import { createHmac } from "crypto"
 
 export type PaymentType = "cash" | "momo"
 export type OrderStatus = "pending" | "success" | "failed"
@@ -29,6 +30,13 @@ export const createOrder = async (orderId: string, orderInfo: Omit<Order, "id" |
     }
     await setDoc(orderRef, order)
     await emptyCart(orderInfo.buyerId)
+
+    if (order.paymentType === "momo") {
+        const nextUrl = await payUsingMomo({id: orderId, ...order})
+        return nextUrl
+    }
+
+    return null
 }
 
 export const getOrders = async (uid: string) => {
@@ -48,4 +56,70 @@ export const getOrdersWithImage = async (uid: string): Promise<OrderWithImage[]>
             ...cartItem,
         })),
     }))
+}
+
+export const payUsingMomo = async (order: Order) => {
+    const partnerCode = "MOMO";
+    const accessKey = "F8BBA842ECF85";
+    const secretkey = "K951B6PE1waDMi640xX08PD3vg6EkVlz";
+    const requestId = partnerCode + new Date().getTime();
+    const orderId = order.id;
+    const orderInfo = "Pay with Momo";
+    const redirectUrl = "http://localhost:3000/me/order";
+    const ipnUrl = "http://localhost:3000/me/order";
+    const amount = order.totalPrice.toString();
+    const requestType = "captureWallet"
+    const extraData = "";
+
+    const rawSignature = "accessKey="+accessKey+"&amount=" + amount+"&extraData=" + extraData+"&ipnUrl=" + ipnUrl+"&orderId=" + orderId+"&orderInfo=" + orderInfo+"&partnerCode=" + partnerCode +"&redirectUrl=" + redirectUrl+"&requestId=" + requestId+"&requestType=" + requestType
+    const signature = createHmac('sha256', secretkey).update(rawSignature).digest('hex');
+    
+    const requestBody = JSON.stringify({
+        partnerCode : partnerCode,
+        accessKey : accessKey,
+        requestId : requestId,
+        amount : amount,
+        orderId : orderId,
+        orderInfo : orderInfo,
+        redirectUrl : redirectUrl,
+        ipnUrl : ipnUrl,
+        extraData : extraData,
+        requestType : requestType,
+        signature : signature,
+        lang: 'en'
+    });
+
+    const options = {
+        hostname: 'test-payment.momo.vn',
+        port: 443,
+        path: '/v2/gateway/api/create',
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json; charset=UTF-8',
+            'Content-Length': Buffer.byteLength(requestBody)
+        }
+    }
+    
+    //Send the request and get the response
+    const result = await new Promise((resolve, reject) => {
+        const https = require('https');
+        const req = https.request(options, res => {
+            res.setEncoding('utf8');
+            res.on('data', (body) => {
+                resolve(JSON.parse(body).payUrl);
+            });
+        });
+        req.on('error', (e) => {
+            reject(e.message);
+        });
+        req.write(requestBody);
+        req.end();
+    });
+    return result;
+}
+
+export const updateOrderStatus = async (orderId, status) => {
+    const orderRef = getOrderRef(orderId)
+    await updateDoc(orderRef, { status: status })
+    return null
 }

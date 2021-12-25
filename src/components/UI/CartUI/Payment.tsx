@@ -25,6 +25,19 @@ const Payment = ({ currentPayment, setCurrentPayment }: PaymentProps) => {
                             </Flex>
                         </Radio>
                     </VStack>
+                    <VStack align="flex-start">
+                        <Radio value="momo">
+                            <Flex align="center">
+                                <Flex justify="center" w="2rem" color="green.500">
+                                    <Img
+                                        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ1bHjHnPSDXgBS2WSVOAm57BdPvoAmwBMcqXwjTGUiiJGYrkvUZuVgZHXeZJWWX7kLlCg&usqp=CAU"
+                                        alt="momo"
+                                    />
+                                </Flex>
+                                <Text ml={2}>Thanh toán qua ví điện tử Momo</Text>
+                            </Flex>
+                        </Radio>
+                    </VStack>
                 </RadioGroup>
             </Box>
         </Box>
