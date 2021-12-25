@@ -7,11 +7,14 @@ import { useChakraToast } from "@hooks"
 
 const Order: NextPageWithLayout = ({ status }) => {
     const toast = useChakraToast()
-    if (status == 'success') {
-        toast({ status: "success", title: "Mua hàng thành công!" })
-    } else {
-        toast({ status: "error", title: "Mua hàng thất bại!", message: "Vui lòng thử lại sau" })
+    if (status != null) {
+        if (status == 'success') {
+            toast({ status: "success", title: "Mua hàng thành công!" })
+        } else {
+            toast({ status: "error", title: "Mua hàng thất bại!", message: "Vui lòng thử lại sau" })
+        }
     }
+    
     return <OrderUI />
 }
 
@@ -21,6 +24,9 @@ Order.getLayout = function getLayout(page) {
 
 Order.getInitialProps = async ({query}) => {
     const { orderId, resultCode, message } = query
+    if (resultCode == null) {
+        return { status: null }
+    }
     if (resultCode === '0') {
         await updateOrderStatus(orderId, 'success')
         return { status: 'success' }
