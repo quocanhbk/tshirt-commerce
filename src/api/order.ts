@@ -65,8 +65,8 @@ export const payUsingMomo = async (order: Order) => {
     const requestId = partnerCode + new Date().getTime();
     const orderId = order.id;
     const orderInfo = "Pay with Momo";
-    const redirectUrl = "http://localhost:3000/me/order";
-    const ipnUrl = "http://localhost:3000/me/order";
+    const redirectUrl = "http://localhost:3000/momo";
+    const ipnUrl = "http://localhost:3000/momo";
     const amount = order.totalPrice.toString();
     const requestType = "captureWallet"
     const extraData = "";
